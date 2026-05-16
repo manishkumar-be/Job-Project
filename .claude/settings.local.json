@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(Get-ChildItem -Path \"F:\\\\Desktop Folders\\\\job portal\\\\se website\" | Where-Object { $_.Name -ne 'node_modules' } | Select-Object Name, PSIsContainer)"
+    ]
+  }
+}

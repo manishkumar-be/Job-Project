@@ -1,0 +1,102 @@
+/* feedback.css */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background-color: #f4f4f9;
+}
+
+header {
+    background-color: #333; /* Update to match the second image's dark background */
+    color: white;
+    padding: 10px 0; /* Reduce padding for a compact look */
+    text-align: center;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 20px; /* Smaller title size for consistency */
+}
+
+nav {
+    background-color: #333; /* Match navigation background to header */
+    display: flex;
+    justify-content: center;
+    padding: 10px 0;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 20px; /* Add spacing between links */
+}
+
+nav li {
+    margin: 0;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    font-size: 14px; /* Match smaller font size */
+    padding: 8px 12px; /* Adjust padding for compact links */
+    border-radius: 5px;
+}
+
+nav a.active, nav a:hover {
+    background-color: #555; /* Darker shade for hover and active links */
+}
+
+/* Main Content */
+main {
+    padding: 20px;
+    text-align: center; /* Center-align content */
+}
+
+main h2 {
+    color: #333;
+    font-size: 18px; /* Adjust font size for consistency */
+    margin-bottom: 10px;
+}
+
+form {
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    margin: 0 auto; /* Center the form on the page */
+}
+
+form label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+form input, form textarea, form button {
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 10px;
+    font-size: 1rem;
+}
+
+form button {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+form button:hover {
+    background-color: #0056b3;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 10px;
+    background-color: #333; /* Match footer color to header and navigation */
+    color: white;
+    margin-top: 20px;
+}

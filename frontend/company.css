@@ -1,0 +1,65 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background-color: #f9f9f9; /* Match the overall background color */
+}
+
+header {
+    background-color: #333;
+    color: white;
+    padding: 20px 0; /* Add consistent vertical padding */
+    text-align: center;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 24px;
+}
+
+/* Navigation Bar */
+nav {
+    display: flex;
+    justify-content: center; /* Align links horizontally */
+    margin-top: 10px;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex; /* Display links in a single line */
+    gap: 20px; /* Add spacing between links */
+}
+
+nav li {
+    margin: 0; /* Remove unnecessary margin */
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    padding: 10px 15px; /* Add padding around links */
+    border-radius: 5px; /* Add rounded corners for hover effect */
+    font-size: 16px;
+}
+
+nav a.active, nav a:hover {
+    background-color: #555; /* Apply hover and active state styles */
+}
+
+/* Main Content */
+main {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+footer {
+    text-align: center;
+    padding: 10px;
+    background-color: #333;
+    color: white;
+    margin-top: 20px;
+}

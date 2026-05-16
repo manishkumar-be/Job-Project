@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Application Tracker</title>
+    <link rel="stylesheet" href="applicationtracker.css">
+</head>
+<body>
+    <header>
+        <h1>Company Dashboard</h1>
+        <nav>
+            <a href="comprofile.html">Profile</a>
+            <a href="jobpost.html">Job Post</a>
+            <a href="applications.html">Applications</a>
+            <a href="applicationtracker.html" class="active">Application Tracker</a>
+        </nav>
+    </header>
+    <main>
+        <section id="trackedSection">
+            <h2>Application Tracker</h2>
+            <table id="trackerTable">
+                <thead>
+                    <tr>
+                        <th>Applicant Name</th>
+                        <th>Email</th>
+                        <th>Job Post</th>
+                        <th>Current Status</th>
+                        <th>Update Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Tracked applications will be dynamically loaded here -->
+                </tbody>
+            </table>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 Job Portal</p>
+    </footer>
+    <script src="applicationtracker.js"></script>
+</body>
+</html>

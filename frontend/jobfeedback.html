@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback</title>
+    <link rel="stylesheet" href="feedback.css">
+</head>
+<body>
+    <header>
+        <h1>Job Portal Feedback</h1>
+        <nav>
+            <li><a href="jobprofile.html" id="profileLink">Profile</a></li>
+                <li><a href="joblisting.html" id="jobListingLink">Job Listings</a></li>
+                <li><a href="cr.html" id="reviewsLink">Company Reviews</a></li>
+                <li><a href="qb.html" id="questionBankLink">Question Bank</a></li>
+                <li><a href="at.html" id="applicationTrackerLink">Application Tracker</a></li>
+                <li><a href="jobfeedback.html" id="jobfeedbackLink">Feedback</a></li>
+        </nav>
+    </header>
+
+    <main>
+        <section>
+            <h2>Share Your Feedback</h2>
+            <form id="feedbackForm">
+                <label for="userEmail">Your Email:</label>
+                <input type="email" id="userEmail" name="userEmail" required>
+
+                <label for="feedbackMessage">Your Feedback:</label>
+                <textarea id="feedbackMessage" name="feedbackMessage" rows="5" required></textarea>
+
+                <button type="submit">Submit Feedback</button>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Job Portal</p>
+    </footer>
+
+    <script src="feedback.js"></script>
+</body>
+</html>
