@@ -5,10 +5,49 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Job Portal Login</title>
     <link rel="stylesheet" href="login.css">
+    <style>
+        .demo-box {
+            background: #f0f8ff;
+            border: 1px solid #b0d4f1;
+            border-radius: 8px;
+            padding: 16px 20px;
+            margin-top: 24px;
+            max-width: 360px;
+        }
+        .demo-box h3 {
+            margin: 0 0 10px;
+            font-size: 15px;
+            color: #2c5f8a;
+        }
+        .demo-accounts { list-style: none; padding: 0; margin: 0; }
+        .demo-accounts li { margin-bottom: 8px; font-size: 13px; }
+        .demo-accounts li strong { display: inline-block; width: 80px; color: #444; }
+        .demo-accounts li span { color: #222; font-family: monospace; }
+        .demo-accounts li .role-badge {
+            display: inline-block;
+            background: #2c5f8a;
+            color: #fff;
+            border-radius: 4px;
+            padding: 1px 6px;
+            font-size: 11px;
+            margin-right: 6px;
+        }
+        .demo-fill-btn {
+            background: none;
+            border: 1px solid #2c5f8a;
+            color: #2c5f8a;
+            border-radius: 4px;
+            padding: 2px 8px;
+            font-size: 11px;
+            cursor: pointer;
+            margin-left: 6px;
+        }
+        .demo-fill-btn:hover { background: #2c5f8a; color: #fff; }
+    </style>
 </head>
 <body>
     <h2>Job Portal Login</h2>
-    <form id="loginForm" action="/login" method="post">
+    <form id="loginForm">
         <label for="userType">Login As:</label>
         <select id="userType" name="userType" required>
             <option value="">Select</option>
@@ -16,7 +55,7 @@
             <option value="company">Company</option>
             <option value="admin">Administration</option>
         </select>
-        
+
         <label for="email">Email:</label>
         <input type="email" id="email" name="email" required>
 
@@ -29,7 +68,37 @@
 
     <p>New user? <a href="register.html">Register here</a></p>
 
+    <div class="demo-box">
+        <h3>Demo Accounts</h3>
+        <ul class="demo-accounts">
+            <li>
+                <span class="role-badge">Job Seeker</span>
+                <strong>Email:</strong> <span>seeker@demo.com</span>
+                <button class="demo-fill-btn" onclick="fillDemo('jobSeeker','seeker@demo.com','Demo@123')">Fill</button>
+            </li>
+            <li>
+                <span class="role-badge">Company</span>
+                <strong>Email:</strong> <span>company@demo.com</span>
+                <button class="demo-fill-btn" onclick="fillDemo('company','company@demo.com','Demo@123')">Fill</button>
+            </li>
+            <li>
+                <span class="role-badge">Admin</span>
+                <strong>Email:</strong> <span>admin@demo.com</span>
+                <button class="demo-fill-btn" onclick="fillDemo('admin','admin@demo.com','Demo@123')">Fill</button>
+            </li>
+            <li style="margin-top:6px; color:#666;">
+                <strong>Password:</strong> <span>Demo@123</span> (all accounts)
+            </li>
+        </ul>
+    </div>
+
     <script src="login1.js"></script>
-    <!-- <script src="loginserver.js"></script> -->
+    <script>
+        function fillDemo(role, email, password) {
+            document.getElementById('userType').value = role;
+            document.getElementById('email').value = email;
+            document.getElementById('password').value = password;
+        }
+    </script>
 </body>
 </html>

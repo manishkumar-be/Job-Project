@@ -4,8 +4,16 @@ document.getElementById('loginForm').addEventListener('submit', function (event)
     const userType = document.getElementById('userType').value;
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
+    const errorMsg = document.getElementById('errorMessage');
 
-    fetch('http://127.0.0.1:8080/login', {
+    if (!userType) {
+        errorMsg.textContent = 'Please select a user type.';
+        return;
+    }
+
+    errorMsg.textContent = '';
+
+    fetch('http://localhost:8080/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userType, email, password })
@@ -13,11 +21,15 @@ document.getElementById('loginForm').addEventListener('submit', function (event)
     .then(response => response.json())
     .then(data => {
         if (data.success) {
-            // window.location.href = data.redirectTo;
-            // window.location.href = 'job.html';
-            window.location.href = `/${userType}.html`;
+            if (data.companyName) {
+                sessionStorage.setItem('companyName', data.companyName);
+            }
+            window.location.href = data.redirectTo;
         } else {
-            document.getElementById('errorMessage').textContent = "Please enter your credentials again";
+            errorMsg.textContent = data.message || 'Invalid credentials. Please try again.';
         }
+    })
+    .catch(() => {
+        errorMsg.textContent = 'Cannot connect to server. Please try again.';
     });
 });

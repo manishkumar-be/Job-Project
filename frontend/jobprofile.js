@@ -1,19 +1,16 @@
-// Function to dynamically add fields for mobile numbers, emails, skills, etc.
-function addField(containerId, fieldType, fieldName, placeholder = '') {
+function addField(containerId, fieldType, fieldName, placeholder) {
     const container = document.getElementById(containerId);
     const input = document.createElement('input');
     input.type = fieldType;
     input.name = fieldName;
-    input.placeholder = placeholder;
+    if (placeholder) input.placeholder = placeholder;
     container.appendChild(input);
 }
 
-// Function to dynamically add education entries with specific fields
 function addEducation() {
     const educationContainer = document.getElementById('educationContainer');
     const entry = document.createElement('div');
     entry.className = 'education-entry';
-
     entry.innerHTML = `
         <select name="educationLevels[]">
             <option value="class10">Class X</option>
@@ -28,3 +25,29 @@ function addEducation() {
     `;
     educationContainer.appendChild(entry);
 }
+
+document.addEventListener('DOMContentLoaded', function () {
+    const form = document.getElementById('profileForm');
+
+    form.addEventListener('submit', function (event) {
+        event.preventDefault();
+        const formData = new FormData(form);
+
+        fetch('http://localhost:8080/jobprofile', {
+            method: 'POST',
+            body: formData,
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert(data.message);
+            } else {
+                alert('Error: ' + data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error saving profile:', error);
+            alert('Failed to save profile. Please try again.');
+        });
+    });
+});
