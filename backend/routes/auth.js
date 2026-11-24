@@ -3,9 +3,12 @@ const bcrypt = require('bcryptjs');
 const User = require('../models/User');
 const { createToken } = require('../utils/token');
 const { authenticate } = require('../middleware/auth');
+const rateLimit = require('../middleware/rateLimit');
 const { asyncHandler, HttpError, clean } = require('../utils/http');
 
 const router = express.Router();
+const loginLimit = rateLimit({ max: 10, windowMinutes: 15 });
+const registerLimit = rateLimit({ max: 10, windowMinutes: 60 });
 
 // Landing page for each role
 const HOME_PAGES = { jobSeeker: '/jobseeker.html', company: '/company.html', admin: '/admin.html' };
@@ -21,7 +24,7 @@ const publicUser = (user) => ({
 });
 
 // POST /api/register  { registerType, email, password, companyName }
-router.post('/register', asyncHandler(async (req, res) => {
+router.post('/register', registerLimit, asyncHandler(async (req, res) => {
     const email = clean(req.body.email).toLowerCase();
     const password = typeof req.body.password === 'string' ? req.body.password : '';
     const role = clean(req.body.registerType);
@@ -45,7 +48,7 @@ router.post('/register', asyncHandler(async (req, res) => {
 }));
 
 // POST /api/login  { userType, email, password }
-router.post('/login', asyncHandler(async (req, res) => {
+router.post('/login', loginLimit, asyncHandler(async (req, res) => {
     const email = clean(req.body.email).toLowerCase();
     const password = typeof req.body.password === 'string' ? req.body.password : '';
     const role = clean(req.body.userType);

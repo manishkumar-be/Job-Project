@@ -2,10 +2,10 @@ const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
 const multer = require('multer');
-const { maxUploadBytes } = require('../config');
+const { maxUploadBytes, uploadDir } = require('../config');
 const { HttpError } = require('../utils/http');
 
-const UPLOAD_DIR = path.join(__dirname, '..', 'uploads');
+const UPLOAD_DIR = uploadDir;
 fs.mkdirSync(UPLOAD_DIR, { recursive: true });
 
 // Allowed file types for each upload field
