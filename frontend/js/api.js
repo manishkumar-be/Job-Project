@@ -1,9 +1,13 @@
 // Shared helpers for every page: server address, login session, API calls,
 // navigation menu and safe HTML output. Load this before the page's own script.
 
-// Pages are normally served by the backend on port 8080. If they are opened another way
-// (e.g. VS Code Live Server), send API calls to the backend explicitly.
-const API_BASE = window.location.port === '8080' ? '' : 'http://localhost:8080';
+// The backend serves these pages, so API calls go to the same site (works on
+// localhost and when hosted online). Only when a page is opened straight from disk
+// or from a separate dev server such as VS Code Live Server, call the local backend.
+const DEV_SERVER_PORTS = ['5500', '5501', '3000', '5173'];
+const API_BASE = window.location.protocol === 'file:' || DEV_SERVER_PORTS.includes(window.location.port)
+    ? 'http://localhost:8080'
+    : '';
 
 // ---------- Session (stored after login) ----------
 const SESSION_KEY = 'jobPortalSession';

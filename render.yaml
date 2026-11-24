@@ -1,0 +1,21 @@
+# Render blueprint: in Render choose New > Blueprint and pick this repository.
+# You will be asked for the values marked "sync: false".
+services:
+  - type: web
+    name: job-portal
+    runtime: node
+    plan: free
+    buildCommand: npm --prefix backend ci
+    startCommand: npm --prefix backend start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: TOKEN_SECRET
+        generateValue: true # Render makes a random secret
+      - key: MONGO_URI
+        sync: false # Your MongoDB Atlas connection string
+      - key: ADMIN_EMAIL
+        sync: false
+      - key: ADMIN_PASSWORD
+        sync: false
