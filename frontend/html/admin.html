@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/admin.css">
+</head>
+<body data-role="admin">
+    <header>
+        <h1>Admin Dashboard</h1>
+        <nav id="mainNav"></nav>
+    </header>
+
+    <main>
+        <h2>Welcome, <span data-user-email></span></h2>
+        <p>Choose what you would like to manage.</p>
+        <div class="dashboard-links">
+            <a href="jobpostmanage.html">Manage Job Posts</a>
+            <a href="usermanage.html">Manage Users</a>
+            <a href="feedback.html">Read Feedback</a>
+            <a href="help.html">Help Requests</a>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Job Portal</p>
+    </footer>
+
+    <script src="../js/api.js"></script>
+</body>
+</html>
