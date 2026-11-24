@@ -1,6 +1,7 @@
 node_modules/
 backend/uploads/*
 !backend/uploads/.gitkeep
-.env
+# backend/.env is shared (safe defaults only); private values go in .env.local
+.env.local
 .claude/settings.local.json
 .DS_Store

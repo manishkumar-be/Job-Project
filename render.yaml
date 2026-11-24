@@ -9,6 +9,8 @@ services:
     startCommand: npm --prefix backend start
     healthCheckPath: /api/health
     envVars:
+      - key: APP_MODE
+        value: online
       - key: NODE_ENV
         value: production
       - key: TOKEN_SECRET

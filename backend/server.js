@@ -1,5 +1,5 @@
 // Job Portal server. From the backend folder run `npm install` once, then `npm start`,
-// and open http://localhost:8080 (settings come from backend/.env, see .env.example)
+// and open http://localhost:8080 (settings: backend/.env, private values in backend/.env.local)
 const path = require('path');
 const express = require('express');
 const cors = require('cors');
@@ -60,9 +60,8 @@ app.use('/api', notFound);
 app.use(errorHandler);
 
 async function start() {
-    if (!config.hasTokenSecret) {
-        console.warn('Note: TOKEN_SECRET is not set, so everyone must log in again after a server restart.');
-    }
+    console.log(`Starting in ${config.appMode} mode`);
+    config.warnings.forEach(message => console.warn(`Warning: ${message}`));
     try {
         await connectDB();
     } catch (err) {

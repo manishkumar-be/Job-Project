@@ -6,7 +6,7 @@ const User = require('../models/User');
 const { adminEmail, adminPassword } = require('../config');
 
 async function ensureAdmin() {
-    if (!adminEmail && !adminPassword) return;
+    if (!adminPassword) return; // Not configured (or the public example password was refused online)
     if (!adminEmail || adminPassword.length < 6) {
         console.warn('ADMIN_EMAIL and ADMIN_PASSWORD (6+ characters) must both be set to create the admin account.');
         return;
