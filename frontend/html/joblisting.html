@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Listings</title>
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/joblisting.css">
+</head>
+<body data-role="jobSeeker">
+    <header>
+        <h1>Job Listings</h1>
+        <nav id="mainNav"></nav>
+    </header>
+
+    <section id="search-box">
+        <h2>Find Your Job</h2>
+        <form id="search-form">
+            <input type="text" id="post-name" placeholder="Job title">
+            <input type="text" id="company-name" placeholder="Company name">
+            <input type="text" id="location" placeholder="Location">
+            <input type="number" id="min-salary" placeholder="Min salary" min="0">
+            <input type="number" id="max-salary" placeholder="Max salary" min="0">
+            <input type="text" id="company-type" placeholder="Company type">
+            <select id="work-type">
+                <option value="">Any work type</option>
+                <option value="Online">Online</option>
+                <option value="Offline">Offline</option>
+                <option value="Hybrid">Hybrid</option>
+            </select>
+            <button type="submit">Search</button>
+            <button type="button" id="clearSearch">Clear</button>
+        </form>
+    </section>
+
+    <section id="job-listings">
+        <h2>Available Jobs</h2>
+        <div id="job-list">
+            <p class="empty-state">Loading jobs...</p>
+        </div>
+    </section>
+
+    <!-- Modal for Job Application -->
+    <div id="apply-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeModal" title="Close">&times;</span>
+            <h2>Apply for <span id="apply-job-title"></span></h2>
+            <form id="application-form">
+                <input type="hidden" id="job-id">
+                <label for="applicant-name">Name:</label>
+                <input type="text" id="applicant-name" placeholder="Your name" required>
+                <label for="applicant-phone">Mobile Number:</label>
+                <input type="tel" id="applicant-phone" placeholder="10-digit mobile number" pattern="\d{10}" required>
+                <label for="applicant-email">Email:</label>
+                <input type="email" id="applicant-email" placeholder="Your email" required>
+                <label for="applicant-resume">Upload Resume (PDF, DOC or DOCX, max 5 MB):</label>
+                <input type="file" id="applicant-resume" accept=".pdf,.doc,.docx" required>
+                <button type="submit" id="submitApplicationBtn">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Job Portal</p>
+    </footer>
+
+    <script src="../js/api.js"></script>
+    <script src="../js/joblisting.js"></script>
+</body>
+</html>

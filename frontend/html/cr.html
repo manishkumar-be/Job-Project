@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Company Reviews</title>
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/cr.css">
+</head>
+<body data-role="jobSeeker">
+    <header>
+        <h1>Company Reviews</h1>
+        <nav id="mainNav"></nav>
+    </header>
+
+    <section id="review-form-section">
+        <h2>Write a Review</h2>
+        <form id="reviewForm" class="simple-form">
+            <label for="reviewCompany">Company Name:</label>
+            <input type="text" id="reviewCompany" required>
+
+            <label for="reviewRating">Rating (1 = poor, 10 = excellent):</label>
+            <select id="reviewRating" required>
+                <option value="">Select</option>
+                <option>1</option><option>2</option><option>3</option><option>4</option><option>5</option>
+                <option>6</option><option>7</option><option>8</option><option>9</option><option>10</option>
+            </select>
+
+            <label for="reviewReason">Your Review:</label>
+            <textarea id="reviewReason" rows="4" required></textarea>
+
+            <button type="submit">Submit Review</button>
+            <p id="reviewMessage" class="message" hidden></p>
+        </form>
+    </section>
+
+    <section id="reviews-section">
+        <h2>All Company Reviews</h2>
+        <form id="company-search">
+            <input type="text" id="companySearch" placeholder="Search by company name">
+            <button type="submit" id="searchBtn">Search</button>
+        </form>
+        <table id="reviewTable">
+            <thead>
+                <tr>
+                    <th>Company Name</th>
+                    <th>Rating</th>
+                    <th>Review</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 Job Portal</p>
+    </footer>
+
+    <script src="../js/api.js"></script>
+    <script src="../js/cr.js"></script>
+</body>
+</html>

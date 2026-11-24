@@ -1,34 +1,53 @@
-const express=require('express');
-const app= express();
-const mongoose=require('mongoose');
-
+// Job Portal server. From the backend folder run `npm install` once, then `npm start`,
+// and open http://localhost:8080
+const path = require('path');
+const express = require('express');
 const cors = require('cors');
+const config = require('./config');
+const connectDB = require('./config/db');
+const { UPLOAD_DIR } = require('./middleware/upload');
+const { notFound, errorHandler } = require('./middleware/errorHandler');
+
+const app = express();
+const FRONTEND = path.join(__dirname, '..', 'frontend');
 
 app.use(cors());
+app.use(express.json({ limit: '1mb' }));
 
-// Middleware to parse JSON
-app.use(express.json());
-app.use(express.static(require('path').join(__dirname, '../frontend')));
+// Frontend: pages from frontend/html at the site root, plus /css, /js and uploaded files
+app.use(express.static(path.join(FRONTEND, 'html')));
+app.use('/css', express.static(path.join(FRONTEND, 'css')));
+app.use('/js', express.static(path.join(FRONTEND, 'js')));
+app.use('/uploads', express.static(UPLOAD_DIR));
+app.get('/', (req, res) => res.redirect('/login.html'));
 
-mongoose.connect("mongodb://localhost:27017/Job").then((result)=>{
-    console.log("db is connected");
-}).catch((err)=>{
-    console.log("Error", err)
-})
-  n 
-// Define User Schema and Model
-const userSchema = new mongoose.Schema({
-    email: String,
-    password: String
-});
+// API
+app.use('/api', require('./routes/auth'));
+app.use('/api/profile', require('./routes/profile'));
+app.use('/api/job-posts', require('./routes/jobs'));
+app.use('/api/applications', require('./routes/applications'));
+app.use('/api/company', require('./routes/company'));
+app.use('/api/reviews', require('./routes/reviews'));
+app.use('/api/feedback', require('./routes/feedback'));
+app.use('/api/help', require('./routes/help'));
+app.use('/api/users', require('./routes/users'));
+app.use('/api', notFound);
 
-const User = mongoose.model('User', userSchema);
+app.use(errorHandler);
 
-app.post('/login',(req, res)=>{
-    console.log("hiii");
-    res.end("success")
-})
+async function start() {
+    if (!process.env.TOKEN_SECRET) {
+        console.warn('Note: TOKEN_SECRET is not set, so everyone must log in again after a server restart.');
+    }
+    try {
+        await connectDB();
+    } catch (err) {
+        console.error('Could not connect to MongoDB. Is it running?', err.message);
+        process.exit(1);
+    }
+    app.listen(config.port, () => console.log(`Job Portal running at http://localhost:${config.port}`));
+}
 
-app.listen(8080, ()=>{
-    console.log("Server is running fine on port 8080");
-})
+if (require.main === module) start();
+
+module.exports = app; // Exported for tests

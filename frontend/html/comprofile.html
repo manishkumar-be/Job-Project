@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Company Profile</title>
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/comprofile.css">
+</head>
+<body data-role="company">
+    <header>
+        <h1>Company Dashboard</h1>
+        <nav id="mainNav"></nav>
+    </header>
+
+    <main>
+        <section id="profile">
+            <h2>Company Profile</h2>
+            <form id="profileForm">
+                <label for="companyName">Company Name:</label>
+                <input type="text" id="companyName" name="companyName" required>
+
+                <label for="aboutCompany">About Company:</label>
+                <textarea id="aboutCompany" name="aboutCompany" rows="5" required></textarea>
+
+                <button type="submit" id="saveButton">Save</button>
+                <button type="button" id="editButton" style="display:none;">Edit</button>
+                <p id="formMessage" class="message" hidden></p>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Job Portal</p>
+    </footer>
+
+    <script src="../js/api.js"></script>
+    <script src="../js/comprofile.js"></script>
+</body>
+</html>

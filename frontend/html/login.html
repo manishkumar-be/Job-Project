@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Portal Login</title>
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/login.css">
+</head>
+<body>
+    <h2>Job Portal Login</h2>
+    <form id="loginForm">
+        <label for="userType">Login As:</label>
+        <select id="userType" name="userType" required>
+            <option value="">Select</option>
+            <option value="jobSeeker">Job Seeker</option>
+            <option value="company">Company</option>
+            <option value="admin">Administration</option>
+        </select>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" autocomplete="username" required>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" autocomplete="current-password" required>
+
+        <button type="submit">Login</button>
+        <p id="errorMessage" class="message error" hidden></p>
+    </form>
+
+    <p>New user? <a href="register.html">Register here</a></p>
+
+    <script src="../js/api.js"></script>
+    <script src="../js/login.js"></script>
+</body>
+</html>
