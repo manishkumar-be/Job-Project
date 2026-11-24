@@ -60,7 +60,7 @@ app.use('/api', notFound);
 app.use(errorHandler);
 
 async function start() {
-    console.log(`Starting in ${config.appMode} mode`);
+    console.log(`Starting (${config.isProduction ? 'production' : 'development'}, ${config.isLocalDatabase ? 'database on this computer' : 'online database'})`);
     config.warnings.forEach(message => console.warn(`Warning: ${message}`));
     try {
         await connectDB();

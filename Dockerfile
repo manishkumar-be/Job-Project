@@ -8,7 +8,7 @@ COPY backend ./backend
 COPY frontend ./frontend
 # The app runs as the unprivileged "node" user, which must be able to save uploads
 RUN mkdir -p backend/uploads && chown -R node:node backend/uploads
-ENV APP_MODE=online NODE_ENV=production PORT=8080
+ENV NODE_ENV=production PORT=8080
 EXPOSE 8080
 USER node
 CMD ["node", "backend/server.js"]

@@ -4,7 +4,7 @@ const dotenv = require('dotenv');
 
 // Settings are read in this order; the first place that sets a value wins:
 //   1. the hosting site's environment settings (or variables set in the terminal)
-//   2. backend/.env.local  - private values, never uploaded to GitHub
+//   2. backend/.env.local  - private values (e.g. your Atlas MONGO_URI), never uploaded to GitHub
 //   3. backend/.env        - shared example values, kept on GitHub
 dotenv.config({ path: path.join(__dirname, '..', '.env.local') });
 dotenv.config({ path: path.join(__dirname, '..', '.env') });
@@ -16,16 +16,21 @@ const PUBLIC_EXAMPLE_ADMIN_PASSWORD = 'admin123';
 
 const env = process.env;
 
-// APP_MODE=local or online. Hosting sites usually set NODE_ENV=production, which also means online.
-const appMode = (env.APP_MODE || (env.NODE_ENV === 'production' ? 'online' : 'local')).trim().toLowerCase();
-if (!['local', 'online'].includes(appMode)) {
-    throw new Error(`APP_MODE must be "local" or "online", not "${env.APP_MODE}"`);
-}
-const isOnline = appMode === 'online';
-const isProduction = isOnline || env.NODE_ENV === 'production';
+// Hosting sites set NODE_ENV=production (render.yaml and the Dockerfile do this)
+const isProduction = env.NODE_ENV === 'production';
 
-// MONGO_URI (e.g. set on the hosting site) wins; otherwise pick the one for the mode
-const mongoUri = env.MONGO_URI || (isOnline ? env.MONGO_URI_ONLINE : env.MONGO_URI_LOCAL) || 'mongodb://127.0.0.1:27017/job_portal';
+// One database setting for every environment: the same code works with MongoDB on
+// your computer or one shared online database (MongoDB Atlas).
+const mongoUri = (env.MONGO_URI || 'mongodb://127.0.0.1:27017/job_portal').trim();
+
+// Is the database on this computer? Only then may the public example admin be created,
+// otherwise it would land in a shared database that a hosted site also uses.
+const isLocalDatabase = (() => {
+    const match = mongoUri.match(/^mongodb(?:\+srv)?:\/\/(?:[^@/]*@)?([^/?]+)/);
+    if (!match) return false;
+    const hosts = match[1].split(',').map(h => h.replace(/:\d+$/, '').replace(/^\[|\]$/g, '').toLowerCase());
+    return hosts.every(h => ['localhost', '127.0.0.1', '::1', '0.0.0.0'].includes(h));
+})();
 
 const warnings = [];
 
@@ -40,14 +45,14 @@ const hasTokenSecret = Boolean(tokenSecret);
 if (!hasTokenSecret) tokenSecret = crypto.randomBytes(32).toString('hex');
 
 let adminPassword = env.ADMIN_PASSWORD || '';
-if (isProduction && adminPassword === PUBLIC_EXAMPLE_ADMIN_PASSWORD) {
-    warnings.push('ADMIN_PASSWORD is still the public example value, so no admin account is created online. Set your own password in .env.local or the hosting settings.');
+if (adminPassword === PUBLIC_EXAMPLE_ADMIN_PASSWORD && (isProduction || !isLocalDatabase)) {
+    warnings.push('ADMIN_PASSWORD is still the public example value, so no admin account is created in this database (it is not on this computer). Set your own password in .env.local or the hosting settings.');
     adminPassword = '';
 }
 
 const config = {
-    appMode,
     isProduction,
+    isLocalDatabase,
     port: Number(env.PORT) || 8080,
     mongoUri,
     tokenSecret,

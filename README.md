@@ -18,7 +18,7 @@ backend/
   utils/               Small shared helpers
   scripts/             createAdmin.js (command line) and ensureAdmin.js (on startup)
   uploads/             Uploaded resumes and certificates (not committed)
-  .env                 Shared settings (APP_MODE switch); private values go in .env.local
+  .env                 Every setting, with safe example values; private values go in .env.local
 frontend/
   html/                The pages
   css/                 One stylesheet per page, plus common.css
@@ -42,46 +42,46 @@ Open http://localhost:8080. The settings in `backend/.env` already work locally,
 
 ## Settings: `.env` and `.env.local`
 
+`backend/.env` lists every setting the app uses. It is on GitHub, so it only holds safe example values that work on your own computer.
+
 | File | On GitHub? | What goes in it |
 |---|---|---|
-| `backend/.env` | Yes | Shared example settings, and the switch `APP_MODE=local` or `APP_MODE=online` |
-| `backend/.env.local` | **No, it stays on your computer** | Your real passwords and secrets. Same format; any value here replaces the one in `.env` |
+| `backend/.env` | Yes | Every setting, with example values |
+| `backend/.env.local` | **No, it stays on your computer** | Your real values (database password, secret, admin password). Same format; anything here replaces the value in `.env` |
 
-A value set on the hosting site (or in the terminal) replaces both files.
+A value set on the hosting site replaces both files.
 
-### Switching between local and online
+### The settings
 
-Open `backend/.env` and change one line:
+| Variable | What it does |
+|---|---|
+| `MONGO_URI` | Which MongoDB database to use. Default: MongoDB on your own computer |
+| `TOKEN_SECRET` | Long random text that signs logins (this app's "JWT secret"). Keep it private; changing it logs everyone out |
+| `ADMIN_EMAIL`, `ADMIN_PASSWORD` | Admin account created on startup if it does not exist yet |
+| `NODE_ENV` | `production` on a hosted site (Render and the Dockerfile set it for you) |
+| `PORT` | Port to listen on (default 8080; hosting sites set it for you) |
+| `TOKEN_LIFETIME_HOURS`, `MAX_UPLOAD_MB`, `UPLOAD_DIR`, `CORS_ORIGINS` | Optional, explained in `backend/.env` |
 
-```
-APP_MODE=local     # MongoDB on your computer (MONGO_URI_LOCAL)
-APP_MODE=online    # MongoDB Atlas in the cloud (MONGO_URI_ONLINE), production settings
-```
+### Same database on your computer and online
 
-For online mode, create `backend/.env.local` with your real values, for example:
+The code is identical everywhere; only `MONGO_URI` decides which database is used. To have your computer and the hosted site share one database (same users, jobs and applications):
 
-```
-MONGO_URI_ONLINE=mongodb+srv://myuser:mypassword@cluster0.abcde.mongodb.net/job_portal?retryWrites=true&w=majority
-TOKEN_SECRET=paste-a-long-random-value-here
-ADMIN_EMAIL=you@example.com
-ADMIN_PASSWORD=a-strong-password
-```
+1. Create a MongoDB Atlas database (see "Hosting it online" below).
+2. Put its address in `backend/.env.local`, together with your own secret and admin password:
+   ```
+   MONGO_URI=mongodb+srv://myuser:mypassword@cluster0.abcde.mongodb.net/job_portal?retryWrites=true&w=majority
+   TOKEN_SECRET=paste-a-long-random-value-here
+   ADMIN_EMAIL=you@example.com
+   ADMIN_PASSWORD=a-strong-password
+   ```
+3. Use the same `MONGO_URI` in the hosting site's settings.
 
 Make a random `TOKEN_SECRET` with:
 `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"`
 
-The example `TOKEN_SECRET` and `admin123` password are public, so in online mode the server refuses them and prints a warning. That way nobody can use them to break into a hosted copy.
+Changes you make while running locally then show up on the live site too, so be careful when testing.
 
-### All settings
-
-| Variable | What it does |
-|---|---|
-| `APP_MODE` | `local` or `online` |
-| `MONGO_URI_LOCAL` / `MONGO_URI_ONLINE` | Database for each mode. `MONGO_URI`, if set, is used in both modes |
-| `TOKEN_SECRET` | Long random text that signs logins. Keep it private; changing it logs everyone out |
-| `ADMIN_EMAIL`, `ADMIN_PASSWORD` | Admin account created on startup if it does not exist yet |
-| `PORT` | Port to listen on (default 8080; hosting sites set it for you) |
-| `TOKEN_LIFETIME_HOURS`, `MAX_UPLOAD_MB`, `UPLOAD_DIR`, `CORS_ORIGINS` | Optional, explained in `backend/.env` |
+The example `TOKEN_SECRET` and `admin123` password in `.env` are public. So the server ignores the example secret on a hosted site, and only creates the `admin123` admin when the database is on your own computer. That way nobody can use them to get into your shared database or hosted site.
 
 You can also create an admin from the command line: `npm run create-admin -- you@example.com yourPassword`
 
@@ -101,7 +101,7 @@ The backend also serves the pages, so you host just one web service plus a datab
 
 1. Sign up at https://render.com with your GitHub account.
 2. Choose **New > Blueprint**, pick this repository, and Render reads `render.yaml`.
-3. When asked, fill in `MONGO_URI` (your Atlas string from step 1), `ADMIN_EMAIL` and `ADMIN_PASSWORD` (your own, not `admin123`). `APP_MODE=online` and a random `TOKEN_SECRET` are set for you.
+3. When asked, fill in `MONGO_URI` (your Atlas string from step 1), `ADMIN_EMAIL` and `ADMIN_PASSWORD` (your own, not `admin123`). A random `TOKEN_SECRET` and `NODE_ENV=production` are set for you.
 4. Click **Apply**. After the build, your site is live at an address like `https://job-portal-xxxx.onrender.com`. Share that link.
 
 Things to know about Render's free plan:
@@ -111,7 +111,7 @@ Things to know about Render's free plan:
 
 ### Other hosts
 
-- **Railway or any Node host:** build command `npm run build`, start command `npm start`, and set `APP_MODE=online`, `MONGO_URI`, `TOKEN_SECRET`, `ADMIN_EMAIL` and `ADMIN_PASSWORD` in its settings.
+- **Railway or any Node host:** build command `npm run build`, start command `npm start`, and set `NODE_ENV=production`, `MONGO_URI`, `TOKEN_SECRET`, `ADMIN_EMAIL` and `ADMIN_PASSWORD` in its settings.
 - **Docker:** a `Dockerfile` is included: `docker build -t job-portal .` then `docker run -p 8080:8080 --env-file backend/.env.local job-portal`.
 
 Check that a deployment works by opening `/api/health`: it shows `"database": "connected"`.
